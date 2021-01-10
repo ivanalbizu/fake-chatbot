@@ -25,14 +25,32 @@ let questions = [
   }
 ]
 
+const startChat = event => {
+  console.log('event.target :>> ', event.target);
+}
+const selected = event => {
+  const target = event.target
+  const question = target.closest('.question')
+  const name = target.getAttribute('name')
+  const selected = question.querySelector(`input[name="${name}"]:checked`).value
+  question.querySelector('.js-btn-continue').removeAttribute("disabled")
+  console.log(selected)
+}
+
+const nextQuestion = event => {
+  console.log('event.target :>> ', event.target)
+  localStorage.setItem('questions', 'dato guardado')
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const start = document.querySelector('.js-btn-start')
-  const question = document.querySelector('.chat__item')
+  const inputs = document.querySelectorAll('input')
+  const nexts = document.querySelectorAll('.js-btn-continue')
 
-  start.addEventListener('click', event => {
-    console.log('questions :>> ', questions);
+  start.addEventListener('click', startChat, false)
 
-  })
+  inputs.forEach(input => input.addEventListener('change', selected, false))
 
-  localStorage.setItem('questions', JSON.stringify(questions));
+  nexts.forEach(next => next.addEventListener('click', nextQuestion, false))
+
 })

@@ -62,11 +62,6 @@ input[type="submit"], button {
   cursor: pointer;
 }
 
-label {
-  font-size: .85em;
-  margin-bottom: .3em;
-}
-
 body {
   display: flex;
   justify-content: center;
@@ -76,6 +71,8 @@ body {
 
 .label {
   display: block;
+  font-size: .85em;
+  margin: .5em 0;
 }
 
 .label--custom {

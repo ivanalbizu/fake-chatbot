@@ -17,40 +17,59 @@
       <div class="question">
         <h2>Elige tu sexo</h2>
         <label class="label" for="mujer">
-          <input name="sexo" id="mujer" type="radio"> Mujer
+          <input name="sexo" id="mujer" value="mujer" type="radio"> Mujer
         </label>
         <label class="label" for="hombre">
-          <input name="sexo" id="hombre" type="radio"> Hombre
+          <input name="sexo" id="hombre" value="hombre" type="radio"> Hombre
         </label>
         <label class="label" for="indeciso">
-          <input name="sexo" id="indeciso" type="radio"> Indeciso
+          <input name="sexo" id="indeciso" value="indeciso" type="radio"> Indeciso
         </label>
         <label class="label" for="indefinido">
-          <input name="sexo" id="indefinido" type="radio"> Indefinido
+          <input name="sexo" id="indefinido" value="indefinido" type="radio"> Indefinido
         </label>
         <div class="label label--custom">
           <label class="label__text">
             <input type="text" class="text" placeholder="¿Otra cosa?">
           </label>
-          <button class="label__button" type="button">Guardar</button>
+          <button class="label__button" type="button">Add</button>
         </div>
+        <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
       <div class="question">
         <h2>¿Que quieres desayunar?</h2>
         <label class="label" for="chorizo">
-          <input name="desayuno" id="chorizo" type="radio"> Chorizo Cantinpalo
+          <input name="desayuno" value="chorizo" id="chorizo" type="radio"> Chorizo Cantinpalo
         </label>
         <label class="label" for="sobrasada">
-          <input name="desayuno" id="sobrasada" type="radio"> Sobrasada
+          <input name="desayuno" value="sobrasada" id="sobrasada" type="radio"> Sobrasada
         </label>
         <label class="label" for="tortilla">
-          <input name="desayuno" id="tortilla" type="radio"> Tortilla de Betanzos
+          <input name="desayuno" value="tortilla" id="tortilla" type="radio"> Tortilla de Betanzos
         </label>
+        <div class="label label--custom">
+          <label class="label__text">
+            <input type="text" class="text" placeholder="¿Otra cosa?">
+          </label>
+          <button class="label__button" type="button">Add</button>
+        </div>
+        <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
       <div class="question">
         <h2>¿Quieres trabajar o una ducha?</h2>
-        <p>Trabajar</p>
-        <p>Ducha</p>
+        <label class="label" for="trabajar">
+          <input name="trabajo" value="trabajar" id="trabajar" type="radio"> Trabajar
+        </label>
+        <label class="label" for="duchar">
+          <input name="trabajo" value="duchar" id="duchar" type="radio"> Duchar
+        </label>
+        <div class="label label--custom">
+          <label class="label__text">
+            <input type="text" class="text" placeholder="¿Otra cosa?">
+          </label>
+          <button class="label__button" type="button">Add</button>
+        </div>
+        <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
     </div>
   </section>
