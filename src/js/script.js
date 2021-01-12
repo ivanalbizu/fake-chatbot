@@ -26,9 +26,6 @@ let questions = [
 ]
 let number = -1
 let total = 0
-let generalAnswer = localStorage.getItem('generalAnswer')
-generalAnswer = generalAnswer ? JSON.parse(generalAnswer) : {}
-
 let answer = localStorage.getItem('answer')
 answer = answer ? JSON.parse(answer) : {}
 
@@ -36,8 +33,8 @@ const startValidation = (fields, next) => {
   const target = event.target
   const name = target.getAttribute('name')
 
-  generalAnswer[name] = target.value
-  localStorage.setItem('generalAnswer', JSON.stringify(generalAnswer))
+  answer[name] = target.value
+  localStorage.setItem('answer', JSON.stringify(answer))
   let requires = fields.length
 
   for(var i=0; i < fields.length; i++){    
@@ -71,6 +68,7 @@ const loadQuestion = () => {
   } else if(dataQuestionNumber.querySelector('.js-btn-continue')) {
     // no existn inputs, por tanto se trata de video
     const video = dataQuestionNumber.querySelector('video')
+    video.playbackRate = 6.0
     video.play()
     video.addEventListener('ended', () => {
       const next = dataQuestionNumber.querySelector('.js-btn-continue')
@@ -97,11 +95,75 @@ const nextQuestion = () => {
   document.querySelector(`[data-number="${number-1}"]`).setAttribute('data-current', false)
 }
 */
+const serializedData = json => {
+  const result = []
+  const keys = Object.keys(json)
+  keys.forEach(key => {
+      let record = {}
+      record['name'] = key
+      record['value'] = json[key]
+      result.push(record)
+  })
+  let timestamp = {
+    "name": 'timestamp',
+    "value": Date.now()
+  }
+  result.push(timestamp)
+  return result
+}
+const sendingData = () => {
+  const time = 300
+  let counterInverval = 0
+  const documentTitle = [
+    "Hemos",
+    "vendido",
+    "tus",
+    "datos"
+  ]
+  const title = document.title
+
+  const interval = setInterval(() => {
+    if (documentTitle.length === counterInverval) counterInverval = 0
+    document.title = documentTitle[counterInverval]
+    counterInverval++
+  }, time)
+  const mensajeBox = document.querySelector('.mensaje')
+  mensajeBox.style.display = 'flex'
+  return { title, interval, mensajeBox }
+}
+const receivingData = (title, interval, mensajeBox) => {
+  mensajeBox.style.display = 'none'
+  clearInterval(interval)
+  document.title = title
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   const start = document.querySelector('.js-btn-start')
   let total = document.querySelectorAll('[data-number]').length
-  console.log('total :>> ', total);
 
   start.addEventListener('click', startQuestion, false)
+
+  function SubForm (){
+    const { title, interval, mensajeBox } = sendingData()
+    $.ajax({
+        url:'https://api.apispreadsheets.com/data/6391/',
+        type:'post',
+        data:serializedData(answer),
+        success: function(){
+          receivingData(title, interval, mensajeBox)
+          console.log("Form Data Submitted :)")
+        },
+        error: function(){
+          receivingData(title, interval, mensajeBox)
+          console.log("There was an error :(")
+        }
+    })
+  }
+
+  console.log('answer :>> ', answer)
+  const result = serializedData(answer)
+  console.log('result :>> ', result)
+
+  document.querySelector('.js-submit').addEventListener('click', SubForm, false)
 })
