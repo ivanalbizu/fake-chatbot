@@ -14,7 +14,7 @@
   <button class="btn js-btn-start" type="button">Start Chat</button>
   <section class="chat">
     <div class="chat__item">
-      <div class="question">
+      <div class="question" data-number="1" id="sexo" data-current="false">
         <h2>Elige tu sexo</h2>
         <label class="label" for="mujer">
           <input name="sexo" id="mujer" value="mujer" type="radio"> Mujer
@@ -36,7 +36,7 @@
         </div>
         <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
-      <div class="question">
+      <div class="question" data-number="2" id="desayuno" data-current="false">
         <h2>¿Que quieres desayunar?</h2>
         <label class="label" for="chorizo">
           <input name="desayuno" value="chorizo" id="chorizo" type="radio"> Chorizo Cantinpalo
@@ -55,7 +55,7 @@
         </div>
         <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
-      <div class="question">
+      <div class="question" data-number="3" id="trabajo" data-current="false">
         <h2>¿Quieres trabajar o una ducha?</h2>
         <label class="label" for="trabajar">
           <input name="trabajo" value="trabajar" id="trabajar" type="radio"> Trabajar
@@ -71,6 +71,7 @@
         </div>
         <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
+      <div data-number="4" data-current="false">Conclusion</div>
     </div>
   </section>
 </body>

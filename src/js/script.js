@@ -25,32 +25,43 @@ let questions = [
   }
 ]
 
-const startChat = event => {
-  console.log('event.target :>> ', event.target);
-}
-const selected = event => {
-  const target = event.target
-  const question = target.closest('.question')
-  const name = target.getAttribute('name')
-  const selected = question.querySelector(`input[name="${name}"]:checked`).value
-  question.querySelector('.js-btn-continue').removeAttribute("disabled")
-  console.log(selected)
-}
+let number = 0
+let total = 0
+let answer = localStorage.getItem('answer')
+answer = answer ? JSON.parse(answer) : {}
 
-const nextQuestion = event => {
-  console.log('event.target :>> ', event.target)
-  localStorage.setItem('questions', 'dato guardado')
-}
+const loadQuestion = () => {
+  number++
+  const dataNumber = document.querySelector(`[data-number="${number}"]`)
+  dataNumber.setAttribute('data-current', true)
 
-document.addEventListener('DOMContentLoaded', () => {
-  const start = document.querySelector('.js-btn-start')
-  const inputs = document.querySelectorAll('input')
-  const nexts = document.querySelectorAll('.js-btn-continue')
-
-  start.addEventListener('click', startChat, false)
+  const inputs = dataNumber.querySelectorAll('input')
 
   inputs.forEach(input => input.addEventListener('change', selected, false))
+  console.log('number :>> ', number);
+}
+const selected = () => {
+  const dataNumber = document.querySelector(`[data-number="${number}"]`)
+  const questionID = dataNumber.getAttribute('id')
+  const checked = dataNumber.querySelector(`input[name]:checked`).value
+  console.log('checked :>> ', checked);
+  answer[questionID] = checked
+  localStorage.setItem('answer', JSON.stringify(answer))
+  const next = dataNumber.querySelector('.js-btn-continue')
+  next.removeAttribute("disabled")
+  next.addEventListener('click', nextQuestion, false)
+}
 
-  nexts.forEach(next => next.addEventListener('click', nextQuestion, false))
+const nextQuestion = () => {
+  //const question = document.querySelector(`[data-number="${number}"]`)
+  document.querySelector(`[data-number="${number-1}"]`).setAttribute('data-current', false)
+  loadQuestion()
+}
+document.addEventListener('DOMContentLoaded', () => {
 
+  const start = document.querySelector('.js-btn-start')
+  let total = document.querySelectorAll('[data-number]').length
+  console.log('total :>> ', total);
+
+  start.addEventListener('click', loadQuestion, false)
 })

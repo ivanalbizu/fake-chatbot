@@ -5,7 +5,7 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
 }
 body {
   font-family: 'Montserrat', sans-serif;
@@ -78,10 +78,21 @@ body {
   color: #fff;
   padding: .3em .8em;
 }
+[disabled] {
+  cursor: not-allowed;
+  background-color: #9b9b9b;
+}
 .question {
   width: clamp(320px, 6vw, 900px);
   box-shadow: 0px 0px 3px purple;
   margin: 1em 1em 2em;
   padding: .6em 1em;
   border-radius: 4px;
+}
+
+[data-current] {
+  display: none;
+}
+[data-current="true"] {
+  display: block;
 }
