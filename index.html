@@ -14,7 +14,58 @@
   <button class="btn js-btn-start" type="button">Start Chat</button>
   <section class="chat">
     <div class="chat__item">
-      <div class="question" data-number="1" id="sexo" data-current="false">
+      <div class="question" data-number="0" id="sexo" data-current="false">
+        <div class="question__group">
+          <!--
+          <h3>Indique su género</h3>
+          <label class="label" for="genero-mujer">
+            <input name="genero" id="genero-mujer" type="radio" value="mujer" required> Mujer
+          </label>
+          <label class="label" for="genero-hombre">
+            <input name="genero" id="genero-hombre" type="radio" value="hombre"> Hombre
+          </label>
+          <h3>Indique su edad</h3>
+          <label class="label" for="edad">
+            <input name="edad" id="edad" type="number" placeholder="69" min="18" max="130" required>
+          </label>
+          <h3>Indique su estatura (cm)</h3>
+          <label class="label" for="altura">
+            <input name="altura" id="altura" type="number" placeholder="169" min="60" max="300" required>
+          </label>
+          <h3>Indique su peso (kg)</h3>
+          <label class="label" for="peso">
+            <input name="peso" id="peso" type="number" placeholder="80" min="20" max="600" required>
+          </label>
+          <h3>Indique su estado civil</h3>
+          <label class="label" for="soltero">
+            <input name="estado-civil" id="soltero" type="radio" value="soltero" required> Soltero
+          </label>
+          <label class="label" for="casado">
+            <input name="estado-civil" id="casado" type="radio" value="casado"> Casado
+          </label>
+          <label class="label" for="casado-con-hijos">
+            <input name="estado-civil" id="casado-con-hijos" type="radio" value="casado-con-hijos"> Casado con hijos
+          </label>
+          -->
+          <h3>Tienes mascotas</h3>
+          <label class="label" for="mascostas-si">
+            <input name="mascotas" id="mascostas-si" type="radio" value="mascotas-si" required> Si
+          </label>
+          <label class="label" for="mascotas-no">
+            <input name="mascotas" id="mascotas-no" type="radio" value="mascotas-no"> No
+          </label>
+        </div>
+        <button class="btn js-btn-continue" type="button" disabled>Continue</button>
+      </div>
+      <div class="video" data-number="1" data-current="false">
+        <video>
+          <source src="./src/video/video-01.mp4" type="video/mp4">
+          <source src="./src/video/video-01.ogg" type="video/ogg">
+          Your browser does not support the video tag.
+        </video>
+        <button class="btn js-btn-continue" type="button">Continue</button>
+      </div>
+      <div class="question" data-number="2" id="sexo" data-current="false">
         <h2>Elige tu sexo</h2>
         <label class="label" for="mujer">
           <input name="sexo" id="mujer" value="mujer" type="radio"> Mujer
@@ -36,7 +87,15 @@
         </div>
         <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
-      <div class="question" data-number="2" id="desayuno" data-current="false">
+      <div class="video" data-number="3" data-current="false">
+        <video>
+          <source src="./src/video/video-02.mp4" type="video/mp4">
+          <source src="./src/video/video-02.ogg" type="video/ogg">
+          Your browser does not support the video tag.
+        </video>
+        <button class="btn js-btn-continue" type="button">Continue</button>
+      </div>
+      <div class="question" data-number="4" id="desayuno" data-current="false">
         <h2>¿Que quieres desayunar?</h2>
         <label class="label" for="chorizo">
           <input name="desayuno" value="chorizo" id="chorizo" type="radio"> Chorizo Cantinpalo
@@ -55,7 +114,15 @@
         </div>
         <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
-      <div class="question" data-number="3" id="trabajo" data-current="false">
+      <div class="video" data-number="5" data-current="false">
+        <video>
+          <source src="./src/video/video-03.mp4" type="video/mp4">
+          <source src="./src/video/video-03.ogg" type="video/ogg">
+          Your browser does not support the video tag.
+        </video>
+        <button class="btn js-btn-continue" type="button">Continue</button>
+      </div>
+      <div class="question" data-number="6" id="trabajo" data-current="false">
         <h2>¿Quieres trabajar o una ducha?</h2>
         <label class="label" for="trabajar">
           <input name="trabajo" value="trabajar" id="trabajar" type="radio"> Trabajar
@@ -71,7 +138,9 @@
         </div>
         <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
-      <div data-number="4" data-current="false">Conclusion</div>
+      <div data-number="7" data-current="false">
+        <p>Conclusion</p>
+      </div>
     </div>
   </section>
 </body>

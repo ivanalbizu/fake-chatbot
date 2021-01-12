@@ -62,6 +62,10 @@ input[type="submit"], button {
   cursor: pointer;
 }
 
+input[type="number"] {
+  border: 1px solid;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -108,4 +112,27 @@ body {
 
 [data-current="true"] {
   display: block;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.video[data-current="true"] {
+  display: flex;
+}
+
+.video video {
+  width: 100%;
+}
+
+.video .js-btn-continue {
+  visibility: hidden;
 }

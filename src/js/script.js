@@ -24,44 +24,84 @@ let questions = [
     "response": false
   }
 ]
-
-let number = 0
+let number = -1
 let total = 0
+let generalAnswer = localStorage.getItem('generalAnswer')
+generalAnswer = generalAnswer ? JSON.parse(generalAnswer) : {}
+
 let answer = localStorage.getItem('answer')
 answer = answer ? JSON.parse(answer) : {}
 
+const startValidation = (fields, next) => {
+  const target = event.target
+  const name = target.getAttribute('name')
+
+  generalAnswer[name] = target.value
+  localStorage.setItem('generalAnswer', JSON.stringify(generalAnswer))
+  let requires = fields.length
+
+  for(var i=0; i < fields.length; i++){    
+    if(fields[i].checkValidity()) requires--
+  }
+  if (requires === 0) next.removeAttribute("disabled")
+  else next.setAttribute("disabled", true)
+}
+const startQuestion = event => {
+  event.target.style.display = 'none'
+  number++
+  const dataQuestionNumber = document.querySelector(`[data-number="${number}"]`)
+  const fields = dataQuestionNumber.querySelectorAll('input')
+  const next = dataQuestionNumber.querySelector('.js-btn-continue')
+  //console.log('fields :>> ', fields);
+  dataQuestionNumber.setAttribute('data-current', true)
+  fields.forEach(field => field.addEventListener('change', startValidation.bind(null, fields, next), false))
+  next.addEventListener('click', loadQuestion, false)
+}
+
 const loadQuestion = () => {
   number++
-  const dataNumber = document.querySelector(`[data-number="${number}"]`)
-  dataNumber.setAttribute('data-current', true)
+  document.querySelector(`[data-number="${number-1}"]`).setAttribute('data-current', false)
+  const dataQuestionNumber = document.querySelector(`[data-number="${number}"]`)
+  dataQuestionNumber.setAttribute('data-current', true)
 
-  const inputs = dataNumber.querySelectorAll('input')
-
-  inputs.forEach(input => input.addEventListener('change', selected, false))
-  console.log('number :>> ', number);
+  if(dataQuestionNumber.classList.contains('question')) {
+    // se trata de formulario
+    const inputs = dataQuestionNumber.querySelectorAll('input')
+    inputs.forEach(input => input.addEventListener('change', selected, false))
+  } else if(dataQuestionNumber.querySelector('.js-btn-continue')) {
+    // no existn inputs, por tanto se trata de video
+    const video = dataQuestionNumber.querySelector('video')
+    video.play()
+    video.addEventListener('ended', () => {
+      const next = dataQuestionNumber.querySelector('.js-btn-continue')
+      next.style.visibility = 'visible'
+      //next.removeAttribute("disabled")
+      next.addEventListener('click', loadQuestion, false)
+    }, false);
+  }
 }
 const selected = () => {
-  const dataNumber = document.querySelector(`[data-number="${number}"]`)
-  const questionID = dataNumber.getAttribute('id')
-  const checked = dataNumber.querySelector(`input[name]:checked`).value
-  console.log('checked :>> ', checked);
+  const dataQuestionNumber = document.querySelector(`[data-number="${number}"]`)
+  const questionID = dataQuestionNumber.getAttribute('id')
+  const checked = dataQuestionNumber.querySelector(`input[name]:checked`).value
   answer[questionID] = checked
   localStorage.setItem('answer', JSON.stringify(answer))
-  const next = dataNumber.querySelector('.js-btn-continue')
-  next.removeAttribute("disabled")
-  next.addEventListener('click', nextQuestion, false)
-}
 
-const nextQuestion = () => {
-  //const question = document.querySelector(`[data-number="${number}"]`)
-  document.querySelector(`[data-number="${number-1}"]`).setAttribute('data-current', false)
-  loadQuestion()
+  const next = dataQuestionNumber.querySelector('.js-btn-continue')
+  next.removeAttribute("disabled")
+  next.addEventListener('click', loadQuestion, false)
 }
+/*
+const nextQuestion = () => {
+  loadQuestion()
+  document.querySelector(`[data-number="${number-1}"]`).setAttribute('data-current', false)
+}
+*/
 document.addEventListener('DOMContentLoaded', () => {
 
   const start = document.querySelector('.js-btn-start')
   let total = document.querySelectorAll('[data-number]').length
   console.log('total :>> ', total);
 
-  start.addEventListener('click', loadQuestion, false)
+  start.addEventListener('click', startQuestion, false)
 })
