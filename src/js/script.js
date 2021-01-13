@@ -95,21 +95,10 @@ const nextQuestion = () => {
   document.querySelector(`[data-number="${number-1}"]`).setAttribute('data-current', false)
 }
 */
-const serializedData = json => {
-  const result = []
-  const keys = Object.keys(json)
-  keys.forEach(key => {
-      let record = {}
-      record['name'] = key
-      record['value'] = json[key]
-      result.push(record)
-  })
-  let timestamp = {
-    "name": 'timestamp',
-    "value": Date.now()
-  }
-  result.push(timestamp)
-  return result
+const dataStorage = () => {
+  let data = JSON.parse(localStorage.getItem('answer'))
+  data.timestamp = Date.now()
+  return JSON.stringify({"data":data})
 }
 const sendingData = () => {
   const time = 300
@@ -146,24 +135,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function SubForm (){
     const { title, interval, mensajeBox } = sendingData()
-    $.ajax({
-        url:'https://api.apispreadsheets.com/data/6391/',
-        type:'post',
-        data:serializedData(answer),
-        success: function(){
-          receivingData(title, interval, mensajeBox)
-          console.log("Form Data Submitted :)")
-        },
-        error: function(){
-          receivingData(title, interval, mensajeBox)
-          console.log("There was an error :(")
-        }
-    })
+
+    fetch("https://api.apispreadsheets.com/data/6391/", {
+      method: "POST",
+      body: dataStorage(),
+        }).then(res =>{
+          if (res.status === 201){
+            receivingData(title, interval, mensajeBox)
+            console.log("Form Data Submitted :)")
+          }
+          else{
+            receivingData(title, interval, mensajeBox)
+            alert("There was an error :(")
+          }
+        })
   }
 
   console.log('answer :>> ', answer)
-  const result = serializedData(answer)
-  console.log('result :>> ', result)
 
   document.querySelector('.js-submit').addEventListener('click', SubForm, false)
 })
