@@ -24,6 +24,8 @@ let questions = [
     "response": false
   }
 ]
+
+const urlApi = 'https://api.apispreadsheets.com/data/6391/'
 let number = -1
 let total = 0
 let answer = localStorage.getItem('answer')
@@ -75,7 +77,7 @@ const loadQuestion = () => {
       next.style.visibility = 'visible'
       //next.removeAttribute("disabled")
       next.addEventListener('click', loadQuestion, false)
-    }, false);
+    }, false)
   }
 }
 const selected = () => {
@@ -125,33 +127,30 @@ const receivingData = (title, interval, mensajeBox) => {
   clearInterval(interval)
   document.title = title
 }
+const subForm = () => {
+  const { title, interval, mensajeBox } = sendingData()
+
+  fetch(urlApi, {
+    method: "POST",
+    body: dataStorage(),
+      }).then(res =>{
+        if (res.status === 201){
+          receivingData(title, interval, mensajeBox)
+          console.log("Form Data Submitted :)")
+        }
+        else{
+          receivingData(title, interval, mensajeBox)
+          alert("There was an error :(")
+        }
+      })
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
-
   const start = document.querySelector('.js-btn-start')
   let total = document.querySelectorAll('[data-number]').length
 
   start.addEventListener('click', startQuestion, false)
 
-  function SubForm (){
-    const { title, interval, mensajeBox } = sendingData()
-
-    fetch("https://api.apispreadsheets.com/data/6391/", {
-      method: "POST",
-      body: dataStorage(),
-        }).then(res =>{
-          if (res.status === 201){
-            receivingData(title, interval, mensajeBox)
-            console.log("Form Data Submitted :)")
-          }
-          else{
-            receivingData(title, interval, mensajeBox)
-            alert("There was an error :(")
-          }
-        })
-  }
-
-  console.log('answer :>> ', answer)
-
-  document.querySelector('.js-submit').addEventListener('click', SubForm, false)
+  document.querySelector('.js-submit').addEventListener('click', subForm, false)
 })
