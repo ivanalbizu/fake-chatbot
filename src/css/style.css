@@ -63,7 +63,8 @@ input[type="submit"], button {
 }
 
 input[type="number"] {
-  border: 1px solid;
+  border: 1px solid #b7b7b7;
+  padding: .3em .6em;
 }
 
 body {
@@ -93,6 +94,12 @@ body {
   padding: .3em .8em;
 }
 
+.btn-speak {
+  background: url(./icon-speak.svg) no-repeat center right;
+  background-size: .8em;
+  cursor: pointer;
+}
+
 [disabled] {
   cursor: not-allowed;
   background-color: #9b9b9b;
@@ -100,10 +107,17 @@ body {
 
 .question {
   width: clamp(320px, 6vw, 900px);
+  background-color: #fff;
   box-shadow: 0px 0px 3px purple;
   margin: 1em 1em 2em;
   padding: .6em 1em;
   border-radius: 4px;
+}
+
+.question .btn-speak:not(:first-of-type) {
+  margin-top: .7em;
+  border-top: 1px solid #b7b7b7;
+  padding-top: .4em;
 }
 
 [data-current] {

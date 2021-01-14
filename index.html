@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
   <script src="./src/js/script.js" defer></script>
 </head>
 <body>
-  <button class="js-speak">Hablar</button>
+  <button class="js-speak">Cambiar color de fondo</button>
   <div class="output"></div>
   <div class="hints"></div>
 
@@ -19,44 +19,42 @@
   <section class="chat">
     <div class="chat__item">
       <div class="question" data-number="0" id="sexo" data-current="false">
-        <div class="question__group">
-          <h3>Indique su género</h3>
-          <label class="label" for="genero-mujer">
-            <input name="genero" id="genero-mujer" type="radio" value="mujer" required> Mujer
-          </label>
-          <label class="label" for="genero-hombre">
-            <input name="genero" id="genero-hombre" type="radio" value="hombre"> Hombre
-          </label>
-          <h3>Indique su edad</h3>
-          <label class="label" for="edad">
-            <input name="edad" id="edad" type="number" placeholder="69" min="18" max="130" required>
-          </label>
-          <h3>Indique su estatura (cm)</h3>
-          <label class="label" for="altura">
-            <input name="altura" id="altura" type="number" placeholder="169" min="60" max="300" required>
-          </label>
-          <h3>Indique su peso (kg)</h3>
-          <label class="label" for="peso">
-            <input name="peso" id="peso" type="number" placeholder="80" min="20" max="600" required>
-          </label>
-          <h3>Indique su estado civil</h3>
-          <label class="label" for="soltero">
-            <input name="estado-civil" id="soltero" type="radio" value="soltero" required> Soltero
-          </label>
-          <label class="label" for="casado">
-            <input name="estado-civil" id="casado" type="radio" value="casado"> Casado
-          </label>
-          <label class="label" for="casado-con-hijos">
-            <input name="estado-civil" id="casado-con-hijos" type="radio" value="casado-con-hijos"> Casado con hijos
-          </label>
-          <h3>Tienes mascotas</h3>
-          <label class="label" for="mascostas-si">
-            <input name="mascotas" id="mascostas-si" type="radio" value="mascotas-si" required> Si
-          </label>
-          <label class="label" for="mascotas-no">
-            <input name="mascotas" id="mascotas-no" type="radio" value="mascotas-no"> No
-          </label>
-        </div>
+        <h3 class="btn-speak js-speak-genero">Indique su género</h3>
+        <label class="label" for="genero-mujer">
+          <input name="genero" id="genero-mujer" type="radio" value="mujer" required> Mujer
+        </label>
+        <label class="label" for="genero-hombre">
+          <input name="genero" id="genero-hombre" type="radio" value="hombre"> Hombre
+        </label>
+        <h3 class="btn-speak js-speak-edad">Indique su edad</h3>
+        <label class="label" for="edad">
+          <input name="edad" id="edad" type="number" placeholder="69" min="18" max="130" required>
+        </label>
+        <h3 class="btn-speak js-speak-altura">Indique su estatura (cm)</h3>
+        <label class="label" for="altura">
+          <input name="altura" id="altura" type="number" placeholder="169" min="60" max="300" required>
+        </label>
+        <h3 class="btn-speak js-speak-peso">Indique su peso (kg)</h3>
+        <label class="label" for="peso">
+          <input name="peso" id="peso" type="number" placeholder="80" min="20" max="600" required>
+        </label>
+        <h3 class="btn-speak js-speak-estado-civil">Indique su estado civil</h3>
+        <label class="label" for="soltero">
+          <input name="estado-civil" id="soltero" type="radio" value="soltero" required> Soltero
+        </label>
+        <label class="label" for="casado">
+          <input name="estado-civil" id="casado" type="radio" value="casado"> Casado
+        </label>
+        <label class="label" for="casado-con-hijos">
+          <input name="estado-civil" id="casado-con-hijos" type="radio" value="casado-con-hijos"> Casado con hijos
+        </label>
+        <h3 class="btn-speak js-speak-mascota">¿Tienes mascotas?</h3>
+        <label class="label" for="si">
+          <input name="mascota" id="si" type="radio" value="si" required> Si
+        </label>
+        <label class="label" for="no">
+          <input name="mascota" id="no" type="radio" value="no"> No
+        </label>
         <button class="btn js-btn-continue" type="button" disabled>Continue</button>
       </div>
       <div class="video" data-number="1" data-current="false">

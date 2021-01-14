@@ -46,6 +46,24 @@ const startValidation = (fields, next) => {
   else next.setAttribute("disabled", true)
 }
 const startQuestion = event => {
+  var recognitionGenero = speechFactory(grammarNameGenero, grammarOptionsGenero, inputGenero)
+  document.querySelector('.js-speak-genero').onclick = () => recognitionGenero.start()
+
+  var recognitionEdad = speechFactory(grammarNameEdad, grammarOptionsEdad, inputEdad)
+  document.querySelector('.js-speak-edad').onclick = () => recognitionEdad.start()
+
+  var recognitionAltura = speechFactory(grammarNameAltura, grammarOptionsAltura, inputAltura)
+  document.querySelector('.js-speak-altura').onclick = () => recognitionAltura.start()
+
+  var recognitionPeso = speechFactory(grammarNamePeso, grammarOptionsPeso, inputPeso)
+  document.querySelector('.js-speak-peso').onclick = () => recognitionPeso.start()
+
+  var recognitionEstadoCivil = speechFactory(grammarNameEstadoCivil, grammarOptionsEstadoCivil, inputEstadoCivil)
+  document.querySelector('.js-speak-estado-civil').onclick = () => recognitionEstadoCivil.start()
+
+  var recognitionMascota = speechFactory(grammarNameMascota, grammarOptionsMascota, inputMascota)
+  document.querySelector('.js-speak-mascota').onclick = () => recognitionMascota.start()
+
   event.target.style.display = 'none'
   number++
   const dataQuestionNumber = document.querySelector(`[data-number="${number}"]`)
@@ -144,7 +162,111 @@ const subForm = () => {
         }
       })
 }
+let grammarNameGenero = [ 'generos', 'genero' ]
+let grammarOptionsGenero = [ 'mujer' , 'hombre' ]
+let inputGenero = {
+  "type": "radio",
+  "name": "genero"
+}
 
+let grammarNameEdad = [ 'edades', 'edad' ]
+let grammarOptionsEdad = [ '20' , '21' ]
+let inputEdad = {
+  "type": "number",
+  "name": "edad"
+}
+
+let grammarNameAltura = [ 'alturas', 'altura' ]
+let grammarOptionsAltura = [ '170' , '171' ]
+let inputAltura = {
+  "type": "number",
+  "name": "altura"
+}
+
+let grammarNamePeso = [ 'pesos', 'peso' ]
+let grammarOptionsPeso = [ '80' , '81' ]
+let inputPeso = {
+  "type": "number",
+  "name": "peso"
+}
+
+let grammarNameEstadoCivil = [ 'estados', 'estado' ]
+let grammarOptionsEstadoCivil = [ 'soltero' , 'casado', 'casado con hijo' ]
+let inputEstadoCivil = {
+  "type": "radio",
+  "name": "estado-civil"
+}
+
+let grammarNameMascota = [ 'mascotas', 'mascota' ]
+let grammarOptionsMascota = [ 'si' , 'no' ]
+let inputMascota = {
+  "type": "radio",
+  "name": "mascota"
+}
+
+const speechFactory = (grammarName, grammarOptions, input) => {
+
+  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+  var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+  var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+
+  var grammar = `#JSGF V1.0; grammar ${grammarName[0]}; public <${grammarName[1]}> = ${grammarOptions.join(' | ')} ;`
+
+  var recognition = new SpeechRecognition();
+  var speechRecognitionList = new SpeechGrammarList();
+
+  speechRecognitionList.addFromString(grammar, 1);
+
+  recognition.grammars = speechRecognitionList;
+  recognition.continuous = false;
+  recognition.lang = 'es-ES';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  var diagnostic = document.querySelector('.output');
+  var hints = document.querySelector('.hints');
+
+  var resultHTML= '';
+  grammarOptions.forEach((v, i) => {
+    console.log(v, i);
+    resultHTML += '<span>' + v + '</span> ';
+  });
+  hints.innerHTML = 'Try: ' + resultHTML + '.';
+
+  recognition.onresult = event => {
+    var transcript = event.results[0][0].transcript;
+    var confidence = event.results[0][0].confidence;
+    diagnostic.textContent = 'Result received: ' + transcript + '.';
+    console.log('confidence :>> ', confidence);
+    console.log('transcript :>> ', transcript);
+    console.log('typeof transcript :>> ', typeof transcript);
+    if(input.type == "radio") {
+
+      const element = document.querySelector(`input[name="${input.name}"][value="${transcript.replace(/ /g, '-')}"]`)
+      element.checked = true
+    } else if(input.type == "number") {
+      const element = document.querySelector(`input[name="${input.name}"]`)
+      element.value = transcript
+    }
+  }
+
+  recognition.onstart = () => {
+    console.log('Ready to receive a command.');
+  }
+
+  recognition.onspeechend = () => {
+    recognition.stop();
+  }
+
+  recognition.onnomatch = () => {
+    diagnostic.textContent = 'I didnt recognise that color.';
+  }
+
+  recognition.onerror = event => {
+    diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
+  }
+  return recognition
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const start = document.querySelector('.js-btn-start')
