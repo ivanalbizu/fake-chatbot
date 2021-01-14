@@ -74,6 +74,11 @@ const startQuestion = event => {
   fields.forEach(field => field.addEventListener('change', startValidation.bind(null, fields, next), false))
   next.addEventListener('click', loadQuestion, false)
 }
+const capitalize = s => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+const parse = str => Function(`'use strict'; return (${str})`)()
 
 const loadQuestion = () => {
   number++
@@ -85,6 +90,15 @@ const loadQuestion = () => {
     // se trata de formulario
     const inputs = dataQuestionNumber.querySelectorAll('input')
     inputs.forEach(input => input.addEventListener('change', selected, false))
+
+    const name = capitalize(inputs[0].getAttribute('name'))
+    const options = {
+      "name": `grammarName${name}`,
+      "option": `grammarOptions${name}`,
+      "input": `input${name}`
+    }
+    let recognitionSingle = speechFactory(parse(options.name), parse(options.option), parse(options.input))
+    dataQuestionNumber.querySelector('.js-speak-single').onclick = () => recognitionSingle.start()
   } else if(dataQuestionNumber.querySelector('.js-btn-continue')) {
     // no existn inputs, por tanto se trata de video
     const video = dataQuestionNumber.querySelector('video')
@@ -203,6 +217,28 @@ let inputMascota = {
   "name": "mascota"
 }
 
+let grammarNameSexo = [ 'sexos', 'sexo' ]
+let grammarOptionsSexo = [ 'mujer' , 'hombre', 'indeciso', 'indefinido' ]
+let inputSexo = {
+  "type": "radio",
+  "name": "sexo"
+}
+
+let grammarNameDesayuno = [ 'desayunos', 'desayuno' ]
+let grammarOptionsDesayuno = [ 'chorizo' , 'sobrasada', 'tortilla' ]
+let inputDesayuno = {
+  "type": "radio",
+  "name": "desayuno"
+}
+
+let grammarNameTrabajo = [ 'trabajos', 'trabajo' ]
+let grammarOptionsTrabajo = [ 'trabajar' , 'duchar' ]
+let inputTrabajo = {
+  "type": "radio",
+  "name": "trabajo"
+}
+
+
 const speechFactory = (grammarName, grammarOptions, input) => {
 
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
@@ -240,7 +276,6 @@ const speechFactory = (grammarName, grammarOptions, input) => {
     console.log('transcript :>> ', transcript);
     console.log('typeof transcript :>> ', typeof transcript);
     if(input.type == "radio") {
-
       const element = document.querySelector(`input[name="${input.name}"][value="${transcript.replace(/ /g, '-')}"]`)
       element.checked = true
     } else if(input.type == "number") {
