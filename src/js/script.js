@@ -39,29 +39,29 @@ const startValidation = (fields, next) => {
   localStorage.setItem('answer', JSON.stringify(answer))
   let requires = fields.length
 
-  for(var i=0; i < fields.length; i++){    
+  for(var i=0; i < fields.length; i++) {    
     if(fields[i].checkValidity()) requires--
   }
   if (requires === 0) next.removeAttribute("disabled")
   else next.setAttribute("disabled", true)
 }
 const startQuestion = event => {
-  var recognitionGenero = speechFactory(grammarNameGenero, grammarOptionsGenero, inputGenero)
+  let recognitionGenero = speechFactory(grammarNameGenero, grammarOptionsGenero, inputGenero)
   document.querySelector('.js-speak-genero').onclick = () => recognitionGenero.start()
 
-  var recognitionEdad = speechFactory(grammarNameEdad, grammarOptionsEdad, inputEdad)
+  let recognitionEdad = speechFactory(grammarNameEdad, grammarOptionsEdad, inputEdad)
   document.querySelector('.js-speak-edad').onclick = () => recognitionEdad.start()
 
-  var recognitionAltura = speechFactory(grammarNameAltura, grammarOptionsAltura, inputAltura)
+  let recognitionAltura = speechFactory(grammarNameAltura, grammarOptionsAltura, inputAltura)
   document.querySelector('.js-speak-altura').onclick = () => recognitionAltura.start()
 
-  var recognitionPeso = speechFactory(grammarNamePeso, grammarOptionsPeso, inputPeso)
+  let recognitionPeso = speechFactory(grammarNamePeso, grammarOptionsPeso, inputPeso)
   document.querySelector('.js-speak-peso').onclick = () => recognitionPeso.start()
 
-  var recognitionEstadoCivil = speechFactory(grammarNameEstadoCivil, grammarOptionsEstadoCivil, inputEstadoCivil)
+  let recognitionEstadoCivil = speechFactory(grammarNameEstadoCivil, grammarOptionsEstadoCivil, inputEstadoCivil)
   document.querySelector('.js-speak-estado-civil').onclick = () => recognitionEstadoCivil.start()
 
-  var recognitionMascota = speechFactory(grammarNameMascota, grammarOptionsMascota, inputMascota)
+  let recognitionMascota = speechFactory(grammarNameMascota, grammarOptionsMascota, inputMascota)
   document.querySelector('.js-speak-mascota').onclick = () => recognitionMascota.start()
 
   event.target.style.display = 'none'
@@ -145,18 +145,17 @@ const receivingData = (title, interval, mensajeBox) => {
   clearInterval(interval)
   document.title = title
 }
-const subForm = () => {
+const submitData = () => {
   const { title, interval, mensajeBox } = sendingData()
 
   fetch(urlApi, {
     method: "POST",
     body: dataStorage(),
-      }).then(res =>{
-        if (res.status === 201){
+      }).then(res => {
+        if (res.status === 201) {
           receivingData(title, interval, mensajeBox)
           console.log("Form Data Submitted :)")
-        }
-        else{
+        } else {
           receivingData(title, interval, mensajeBox)
           alert("There was an error :(")
         }
@@ -274,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   start.addEventListener('click', startQuestion, false)
 
-  document.querySelector('.js-submit').addEventListener('click', subForm, false)
+  document.querySelector('.js-submit').addEventListener('click', submitData, false)
 
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
   var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
