@@ -97,7 +97,12 @@ body {
 .btn-speak {
   background: url(./icon-speak.svg) no-repeat center right;
   background-size: .8em;
+  display: flex;
   cursor: pointer;
+}
+
+.btn-speak span {
+  width: calc(100% - 90px);
 }
 
 [disabled] {
@@ -105,8 +110,13 @@ body {
   background-color: #9b9b9b;
 }
 
+.chat {
+  width: 900px;
+  max-width: 80%;
+}
+
 .question {
-  width: clamp(320px, 6vw, 900px);
+  width: calc(100% - 2em);
   background-color: #fff;
   box-shadow: 0px 0px 3px purple;
   margin: 1em 1em 2em;
@@ -120,12 +130,17 @@ body {
   padding-top: .4em;
 }
 
+.question--images {
+  display: flex;
+}
+
 [data-current] {
   display: none;
 }
 
 [data-current="true"] {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 .video {

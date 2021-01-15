@@ -102,13 +102,14 @@ const loadQuestion = () => {
   } else if (dataQuestionNumber.querySelector('.js-btn-continue')) {
     // no existn inputs, por tanto se trata de video
     const video = dataQuestionNumber.querySelector('video')
-    video.playbackRate = 6.0
+    video.playbackRate = 4.0
     video.play()
     video.addEventListener('ended', () => {
       const next = dataQuestionNumber.querySelector('.js-btn-continue')
       next.style.visibility = 'visible'
       //next.removeAttribute("disabled")
       next.addEventListener('click', loadQuestion, false)
+      loadQuestion()
     }, false)
   }
 }
