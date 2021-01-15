@@ -124,12 +124,7 @@ const selected = () => {
   next.removeAttribute("disabled")
   next.addEventListener('click', loadQuestion, false)
 }
-/*
-const nextQuestion = () => {
-  loadQuestion()
-  document.querySelector(`[data-number="${number-1}"]`).setAttribute('data-current', false)
-}
-*/
+
 const dataStorage = () => {
   let data = JSON.parse(localStorage.getItem('answer'))
   data.timestamp = Date.now()
@@ -278,10 +273,13 @@ const speechFactory = (grammarName, grammarOptions, input) => {
     console.log('typeof transcript :>> ', typeof transcript);
     if (input.type == "radio") {
       const element = document.querySelector(`input[name="${input.name}"][value="${transcript.replace(/ /g, '-')}"]`)
-      element.checked = true
+      element.click()
     } else if (input.type == "number") {
+      // TO-DO check if entry is typeof number
       const element = document.querySelector(`input[name="${input.name}"]`)
       element.value = transcript
+      answer[input.name] = transcript
+      localStorage.setItem('answer', JSON.stringify(answer))
     }
   }
 
