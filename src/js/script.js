@@ -40,7 +40,7 @@ const startValidation = (fields, next) => {
   let requires = fields.length
 
   for(var i=0; i < fields.length; i++) {    
-    if(fields[i].checkValidity()) requires--
+    if (fields[i].checkValidity()) requires--
   }
   if (requires === 0) next.removeAttribute("disabled")
   else next.setAttribute("disabled", true)
@@ -86,7 +86,7 @@ const loadQuestion = () => {
   const dataQuestionNumber = document.querySelector(`[data-number="${number}"]`)
   dataQuestionNumber.setAttribute('data-current', true)
 
-  if(dataQuestionNumber.classList.contains('question')) {
+  if (dataQuestionNumber.classList.contains('question')) {
     // se trata de formulario
     const inputs = dataQuestionNumber.querySelectorAll('input')
     inputs.forEach(input => input.addEventListener('change', selected, false))
@@ -99,7 +99,7 @@ const loadQuestion = () => {
     }
     let recognitionSingle = speechFactory(parse(options.name), parse(options.option), parse(options.input))
     dataQuestionNumber.querySelector('.js-speak-single').onclick = () => recognitionSingle.start()
-  } else if(dataQuestionNumber.querySelector('.js-btn-continue')) {
+  } else if (dataQuestionNumber.querySelector('.js-btn-continue')) {
     // no existn inputs, por tanto se trata de video
     const video = dataQuestionNumber.querySelector('video')
     video.playbackRate = 6.0
@@ -275,10 +275,10 @@ const speechFactory = (grammarName, grammarOptions, input) => {
     console.log('confidence :>> ', confidence);
     console.log('transcript :>> ', transcript);
     console.log('typeof transcript :>> ', typeof transcript);
-    if(input.type == "radio") {
+    if (input.type == "radio") {
       const element = document.querySelector(`input[name="${input.name}"][value="${transcript.replace(/ /g, '-')}"]`)
       element.checked = true
-    } else if(input.type == "number") {
+    } else if (input.type == "number") {
       const element = document.querySelector(`input[name="${input.name}"]`)
       element.value = transcript
     }
