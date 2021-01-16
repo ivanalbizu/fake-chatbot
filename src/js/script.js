@@ -91,14 +91,23 @@ const startQuestion = event => {
   fields.forEach(field => field.addEventListener('change', startValidation.bind(null, fields, next), false))
   next.addEventListener('click', loadQuestion, false)
 }
-
-const loadQuestion = () => {
+const loadAudio = async(audio, timeOutStart = 0) => {
+  if (!audio) return
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      audio.onended = resolve;
+      audio.play();
+    }, timeOutStart);
+  })
+}
+const loadQuestion = async() => {
   number++
   document.querySelector(`[data-number="${number-1}"]`).setAttribute('data-current', false)
   const dataQuestionNumber = document.querySelector(`[data-number="${number}"]`)
   dataQuestionNumber.setAttribute('data-current', true)
 
   if (dataQuestionNumber.classList.contains('question')) {
+    await loadAudio(dataQuestionNumber.querySelector('audio'))
     // se trata de formulario ".question"
     const inputs = dataQuestionNumber.querySelectorAll('input')
     inputs.forEach(input => input.addEventListener('change', selected, false))
@@ -286,7 +295,6 @@ const speechFactory = (grammarName, grammarOptions, input) => {
 
   var resultHTML= '';
   grammarOptions.forEach((v, i) => {
-    console.log(v, i);
     resultHTML += '<span>' + v + '</span> ';
   });
   hints.innerHTML = 'Try: ' + resultHTML + '.';
