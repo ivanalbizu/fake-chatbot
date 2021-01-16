@@ -25,11 +25,21 @@ let questions = [
   }
 ]
 
+// utilities functions
+const capitalize = s => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+const parseToFunction = str => Function(`'use strict'; return (${str})`)()
+
+
+// global variables
 const urlApi = 'https://api.apispreadsheets.com/data/6391/'
 let number = -1
 let total = 0
 let answer = localStorage.getItem('answer')
 answer = answer ? JSON.parse(answer) : {}
+
 
 const startValidation = (fields, next) => {
   const target = event.target
@@ -52,6 +62,7 @@ const startValidation = (fields, next) => {
     next.setAttribute("disabled", true)
   }
 }
+
 const startQuestion = event => {
   let recognitionGenero = speechFactory(grammarNameGenero, grammarOptionsGenero, inputGenero)
   document.querySelector('.js-speak-genero').onclick = () => recognitionGenero.start()
@@ -80,11 +91,6 @@ const startQuestion = event => {
   fields.forEach(field => field.addEventListener('change', startValidation.bind(null, fields, next), false))
   next.addEventListener('click', loadQuestion, false)
 }
-const capitalize = s => {
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
-const parse = str => Function(`'use strict'; return (${str})`)()
 
 const loadQuestion = () => {
   number++
@@ -103,7 +109,7 @@ const loadQuestion = () => {
       "option": `grammarOptions${name}`,
       "input": `input${name}`
     }
-    let recognitionSingle = speechFactory(parse(options.name), parse(options.option), parse(options.input))
+    let recognitionSingle = speechFactory(parseToFunction(options.name), parseToFunction(options.option), parseToFunction(options.input))
     dataQuestionNumber.querySelector('.js-speak-single').onclick = () => recognitionSingle.start()
   } else if (dataQuestionNumber.querySelector('.js-btn-continue')) {
     // se trata de video ".video"
@@ -122,6 +128,7 @@ const loadQuestion = () => {
     }, false)
   }
 }
+
 const selected = () => {
   const dataQuestionNumber = document.querySelector(`[data-number="${number}"]`)
   const questionID = dataQuestionNumber.getAttribute('id')
@@ -139,6 +146,8 @@ const selected = () => {
   }
 }
 
+
+// submit data
 const dataStorage = () => {
   let data = JSON.parse(localStorage.getItem('answer'))
   data.timestamp = Date.now()
@@ -185,6 +194,9 @@ const submitData = () => {
         }
       })
 }
+
+
+// Speech datas
 let grammarNameGenero = [ 'generos', 'genero' ]
 let grammarOptionsGenero = [ 'mujer' , 'hombre' ]
 let inputGenero = {
@@ -249,6 +261,7 @@ let inputTrabajo = {
 }
 
 
+// function for Speech
 const speechFactory = (grammarName, grammarOptions, input) => {
 
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
@@ -289,11 +302,13 @@ const speechFactory = (grammarName, grammarOptions, input) => {
       const element = document.querySelector(`input[name="${input.name}"][value="${transcript.replace(/ /g, '-')}"]`)
       element.click()
     } else if (input.type == "number") {
-      // TO-DO check if entry is typeof number
-      const element = document.querySelector(`input[name="${input.name}"]`)
-      element.value = transcript
-      answer[input.name] = transcript
-      localStorage.setItem('answer', JSON.stringify(answer))
+      const number = parseInt(transcript, 10)
+      if (typeof number === 'number') {
+        const element = document.querySelector(`input[name="${input.name}"]`)
+        element.value = number
+        answer[input.name] = number
+        localStorage.setItem('answer', JSON.stringify(answer))
+      }
     }
   }
 
@@ -314,6 +329,7 @@ const speechFactory = (grammarName, grammarOptions, input) => {
   }
   return recognition
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const start = document.querySelector('.js-btn-start')
