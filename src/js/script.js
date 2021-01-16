@@ -42,8 +42,15 @@ const startValidation = (fields, next) => {
   for(var i=0; i < fields.length; i++) {    
     if (fields[i].checkValidity()) requires--
   }
-  if (requires === 0) next.removeAttribute("disabled")
-  else next.setAttribute("disabled", true)
+  if (requires === 0) {
+    if (next.classList.contains('js-is-clicked')) {
+      loadQuestion()
+    } else {
+      next.removeAttribute("disabled")
+    }
+  } else {
+    next.setAttribute("disabled", true)
+  }
 }
 const startQuestion = event => {
   let recognitionGenero = speechFactory(grammarNameGenero, grammarOptionsGenero, inputGenero)
@@ -69,7 +76,6 @@ const startQuestion = event => {
   const dataQuestionNumber = document.querySelector(`[data-number="${number}"]`)
   const fields = dataQuestionNumber.querySelectorAll('input')
   const next = dataQuestionNumber.querySelector('.js-btn-continue')
-  //console.log('fields :>> ', fields);
   dataQuestionNumber.setAttribute('data-current', true)
   fields.forEach(field => field.addEventListener('change', startValidation.bind(null, fields, next), false))
   next.addEventListener('click', loadQuestion, false)
@@ -87,7 +93,7 @@ const loadQuestion = () => {
   dataQuestionNumber.setAttribute('data-current', true)
 
   if (dataQuestionNumber.classList.contains('question')) {
-    // se trata de formulario
+    // se trata de formulario ".question"
     const inputs = dataQuestionNumber.querySelectorAll('input')
     inputs.forEach(input => input.addEventListener('change', selected, false))
 
@@ -100,16 +106,19 @@ const loadQuestion = () => {
     let recognitionSingle = speechFactory(parse(options.name), parse(options.option), parse(options.input))
     dataQuestionNumber.querySelector('.js-speak-single').onclick = () => recognitionSingle.start()
   } else if (dataQuestionNumber.querySelector('.js-btn-continue')) {
+    // se trata de video ".video"
     // no existn inputs, por tanto se trata de video
     const video = dataQuestionNumber.querySelector('video')
     video.playbackRate = 4.0
     video.play()
     video.addEventListener('ended', () => {
       const next = dataQuestionNumber.querySelector('.js-btn-continue')
-      next.style.visibility = 'visible'
-      //next.removeAttribute("disabled")
-      next.addEventListener('click', loadQuestion, false)
-      loadQuestion()
+      if (next.classList.contains('js-is-clicked')) {
+        loadQuestion()
+      } else {
+        next.style.visibility = 'visible'
+        next.addEventListener('click', loadQuestion, false)
+      }
     }, false)
   }
 }
@@ -121,8 +130,13 @@ const selected = () => {
   localStorage.setItem('answer', JSON.stringify(answer))
 
   const next = dataQuestionNumber.querySelector('.js-btn-continue')
-  next.removeAttribute("disabled")
-  next.addEventListener('click', loadQuestion, false)
+  if (next.classList.contains('js-is-clicked')) {
+    loadQuestion()
+  } else {
+    next.removeAttribute("disabled")
+    next.style.visibility = 'visible'
+    next.addEventListener('click', loadQuestion, false)
+  }
 }
 
 const dataStorage = () => {

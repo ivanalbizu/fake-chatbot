@@ -68,14 +68,6 @@ body {
   display: block;
   font-size: .85em;
   margin: .5em 0;
-  &--custom {
-    border: 1px solid #ccc;
-    margin-top: 1em;
-    padding: .2em;
-    display: flex;
-    justify-content: space-between;
-  }
-
 }
 .btn {
   background-color: purple;
@@ -104,7 +96,7 @@ body {
   background-color: #fff;
   box-shadow: 0px 0px 3px purple;
   margin: 1em 1em 2em;
-  padding: .6em 1em;
+  padding: 2em 2em .6em;
   border-radius: 4px;
   .btn-speak:not(:first-of-type) {
     margin-top: .7em;
@@ -142,6 +134,9 @@ body {
   .js-btn-continue {
     visibility: hidden;
   }
+}
+.js-is-clicked {
+  visibility: hidden;
 }
 .mensaje {
   display: none;
