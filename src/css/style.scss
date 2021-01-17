@@ -107,13 +107,27 @@ body {
     display: flex;
   }
 }
-
+@keyframes fade {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 [data-current] {
   display: none;
 }
 [data-current="true"] {
   display: flex;
   flex-direction: column;
+  &[data-animate] > * {
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: fade .5s linear 0s forwards;
+  }
 }
 
 .video {
