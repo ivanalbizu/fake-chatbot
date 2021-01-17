@@ -93,10 +93,12 @@ const startQuestion = event => {
 }
 const loadAudio = async(audio, timeOutStart = 0) => {
   if (!audio) return
-  await new Promise((resolve) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      audio.onended = resolve;
-      audio.play();
+      audio.play()
+      audio.addEventListener('ended', () => {
+        resolve('finalizado')
+      }, false)
     }, timeOutStart);
   })
 }
@@ -107,8 +109,12 @@ const loadQuestion = async() => {
   dataQuestionNumber.setAttribute('data-current', true)
 
   if (dataQuestionNumber.classList.contains('question')) {
-    await loadAudio(dataQuestionNumber.querySelector('audio'))
     // se trata de formulario ".question"
+
+    // si no se añade <audio> a la pregunta, será ignorado
+    const awaitAudio = await loadAudio(dataQuestionNumber.querySelector('audio'))
+    console.log('awaitAudio :>> ', awaitAudio);
+
     const inputs = dataQuestionNumber.querySelectorAll('input')
     inputs.forEach(input => input.addEventListener('change', selected, false))
 
@@ -119,7 +125,9 @@ const loadQuestion = async() => {
       "input": `input${name}`
     }
     let recognitionSingle = speechFactory(parseToFunction(options.name), parseToFunction(options.option), parseToFunction(options.input))
-    dataQuestionNumber.querySelector('.js-speak-single').onclick = () => recognitionSingle.start()
+    const speakBtn = dataQuestionNumber.querySelector('.js-speak-single')
+    speakBtn.onclick = () => recognitionSingle.start()
+    if (awaitAudio == 'finalizado') speakBtn.click()
   } else if (dataQuestionNumber.querySelector('.js-btn-continue')) {
     // se trata de video ".video"
     // no existn inputs, por tanto se trata de video
@@ -307,13 +315,13 @@ const speechFactory = (grammarName, grammarOptions, input) => {
     console.log('transcript :>> ', transcript);
     console.log('typeof transcript :>> ', typeof transcript);
     if (input.type == "radio") {
-      const element = document.querySelector(`input[name="${input.name}"][value="${transcript.replace(/ /g, '-')}"]`)
-      element.click()
+      const field = document.querySelector(`input[name="${input.name}"][value="${transcript.replace(/ /g, '-')}"]`)
+      field.click()
     } else if (input.type == "number") {
       const number = parseInt(transcript, 10)
       if (typeof number === 'number') {
-        const element = document.querySelector(`input[name="${input.name}"]`)
-        element.value = number
+        const field = document.querySelector(`input[name="${input.name}"]`)
+        field.value = answer[input.name] = number
         answer[input.name] = number
         localStorage.setItem('answer', JSON.stringify(answer))
       }

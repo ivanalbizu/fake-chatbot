@@ -19,6 +19,7 @@
 
   <section class="chat">
     <div class="chat__item">
+
       <div class="question" data-number="0" id="sexo" data-current="false">
         <h3 class="btn-speak js-speak-genero"><span>Indique su género</span></h3>
         <label class="label" for="genero-mujer">
@@ -58,6 +59,7 @@
         </label>
         <button class="btn js-btn-continue" type="button">Continue</button>
       </div>
+
       <div class="video" data-number="1" data-current="false">
         <video>
           <source src="./src/video/video-01.mp4" type="video/mp4">
@@ -66,23 +68,25 @@
         </video>
         <button class="btn js-btn-continue js-is-clicked" type="button">Continue</button>
       </div>
+
       <div class="question question--images" data-number="2" id="sexo" data-current="false" data-animate>
         <audio src="./src/audio/02-sexo-pregunta.mp3" type="audio/mp3"></audio>
-        <h2 class="btn-speak js-speak-single" style="animation-delay: 2s">Elige tu sexo</h2>
-        <label class="label" for="mujer" style="animation-delay: 4s">
+        <h2 class="btn-speak js-speak-single" style="animation-delay: 1.5s">Elige tu sexo</h2>
+        <label class="label" for="mujer" style="animation-delay: 3s">
           <input name="sexo" id="mujer" value="mujer" type="radio"> Mujer
         </label>
-        <label class="label" for="hombre" style="animation-delay: 6s">
+        <label class="label" for="hombre" style="animation-delay: 4.5s">
           <input name="sexo" id="hombre" value="hombre" type="radio"> Hombre
         </label>
-        <label class="label" for="indeciso" style="animation-delay: 8s">
+        <label class="label" for="indeciso" style="animation-delay: 6s">
           <input name="sexo" id="indeciso" value="indeciso" type="radio"> Indeciso
         </label>
-        <label class="label" for="indefinido" style="animation-delay: 10s">
+        <label class="label" for="indefinido" style="animation-delay: 7.5s">
           <input name="sexo" id="indefinido" value="indefinido" type="radio"> Indefinido
         </label>
         <button class="btn js-btn-continue js-is-clicked" type="button" disabled>Continue</button>
       </div>
+
       <div class="video" data-number="3" data-current="false">
         <video>
           <source src="./src/video/video-02.mp4" type="video/mp4">
@@ -91,20 +95,22 @@
         </video>
         <button class="btn js-btn-continue js-is-clicked" type="button">Continue</button>
       </div>
-      <div class="question" data-number="4" id="desayuno" data-current="false">
-        <audio src="./src/audio/02-sexo-pregunta.mp3" type="audio/mp3"></audio>
-        <h2 class="btn-speak js-speak-single">¿Que quieres desayunar?</h2>
-        <label class="label" for="chorizo">
+
+      <div class="question" data-number="4" id="desayuno" data-current="false" data-animate>
+        <audio src="./src/audio/04-desayunar-pregunta.mp3" type="audio/mp3"></audio>
+        <h2 class="btn-speak js-speak-single" style="animation-delay: 1.5s">¿Que quieres desayunar?</h2>
+        <label class="label" for="chorizo" style="animation-delay: 3s">
           <input name="desayuno" value="chorizo" id="chorizo" type="radio"> Chorizo
         </label>
-        <label class="label" for="sobrasada">
+        <label class="label" for="sobrasada" style="animation-delay: 4.5s">
           <input name="desayuno" value="sobrasada" id="sobrasada" type="radio"> Sobrasada
         </label>
-        <label class="label" for="tortilla">
+        <label class="label" for="tortilla" style="animation-delay: 6s">
           <input name="desayuno" value="tortilla" id="tortilla" type="radio"> Tortilla
         </label>
         <button class="btn js-btn-continue js-is-clicked" type="button" disabled>Continue</button>
       </div>
+
       <div class="video" data-number="5" data-current="false">
         <video>
           <source src="./src/video/video-03.mp4" type="video/mp4">
@@ -113,17 +119,19 @@
         </video>
         <button class="btn js-btn-continue js-is-clicked" type="button">Continue</button>
       </div>
-      <div class="question" data-number="6" id="trabajo" data-current="false">
-        <audio src="./src/audio/02-sexo-pregunta.mp3" type="audio/mp3"></audio>
-        <h2 class="btn-speak js-speak-single">¿Quieres trabajar o una ducha?</h2>
-        <label class="label" for="trabajar">
+
+      <div class="question" data-number="6" id="trabajo" data-current="false" data-animate>
+        <audio src="./src/audio/06-que-quieres-hacer-pregunta.mp3" type="audio/mp3"></audio>
+        <h2 class="btn-speak js-speak-single" style="animation-delay: 1s">¿Quieres trabajar o una ducha?</h2>
+        <label class="label" for="trabajar" style="animation-delay: 2s">
           <input name="trabajo" value="trabajar" id="trabajar" type="radio"> Trabajar
         </label>
-        <label class="label" for="duchar">
+        <label class="label" for="duchar" style="animation-delay: 3s">
           <input name="trabajo" value="duchar" id="duchar" type="radio"> Duchar
         </label>
         <button class="btn js-btn-continue js-is-clicked" type="button" disabled>Continue</button>
       </div>
+
       <div data-number="7" data-current="false">
         <p>Conclusion</p>
         <button class="js-submit">Submit</button>
