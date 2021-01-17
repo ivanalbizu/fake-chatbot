@@ -19,7 +19,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-block-end: 0;
   margin-inline-start: 0;
   margin-inline-end: 0;
-  margin-bottom: .5em;
+  margin-bottom: 0;
   font-weight: 400;
   font-family: 'Open Sans Condensed', sans-serif;
 }
@@ -177,6 +177,41 @@ body {
 
 .js-is-clicked {
   visibility: hidden;
+}
+
+@keyframes translateY {
+  0% {
+    opacity: 0;
+    top: -5em;
+  }
+  10% {
+    opacity: 1;
+    top: 1em;
+  }
+  90% {
+    opacity: 1;
+    top: 1em;
+  }
+  100% {
+    opacity: 0;
+    top: -5em;
+  }
+}
+
+.toast {
+  display: none;
+  position: absolute;
+  right: 1em;
+  top: -5em;
+  width: 300px;
+  padding: 1em;
+  background-color: purple;
+  color: #fff;
+}
+
+.toast--active {
+  display: flex;
+  animation: translateY 6s ease 0s forwards;
 }
 
 .mensaje {

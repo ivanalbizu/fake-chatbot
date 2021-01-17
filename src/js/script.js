@@ -277,7 +277,11 @@ let inputTrabajo = {
   "name": "trabajo"
 }
 
-
+const toastDiagnostic = (diagnostic, transcript) => {
+  diagnostic.textContent = transcript;
+  diagnostic.classList.add('toast--active')
+  diagnostic.addEventListener("animationend", () => diagnostic.classList.remove('toast--active'), false)
+}
 // function for Speech
 const speechFactory = (grammarName, grammarOptions, input) => {
 
@@ -298,25 +302,18 @@ const speechFactory = (grammarName, grammarOptions, input) => {
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
-  var diagnostic = document.querySelector('.output');
-  var hints = document.querySelector('.hints');
-
-  var resultHTML= '';
-  grammarOptions.forEach((v, i) => {
-    resultHTML += '<span>' + v + '</span> ';
-  });
-  hints.innerHTML = 'Try: ' + resultHTML + '.';
+  const diagnostic = document.querySelector('.toast')
 
   recognition.onresult = event => {
-    var transcript = event.results[0][0].transcript;
-    var confidence = event.results[0][0].confidence;
+    const transcript = event.results[0][0].transcript;
+    const confidence = event.results[0][0].confidence;
     diagnostic.textContent = 'Result received: ' + transcript + '.';
     console.log('confidence :>> ', confidence);
     console.log('transcript :>> ', transcript);
-    console.log('typeof transcript :>> ', typeof transcript);
     if (input.type == "radio") {
       const field = document.querySelector(`input[name="${input.name}"][value="${transcript.replace(/ /g, '-')}"]`)
-      field.click()
+      if (field) field.click()
+      else toastDiagnostic(diagnostic, `I didnt recognise that word: ${transcript}.`)
     } else if (input.type == "number") {
       const number = parseInt(transcript, 10)
       if (typeof number === 'number') {
@@ -325,6 +322,7 @@ const speechFactory = (grammarName, grammarOptions, input) => {
         answer[input.name] = number
         localStorage.setItem('answer', JSON.stringify(answer))
       }
+      else toastDiagnostic(diagnostic, `I didnt recognise that word: ${transcript}.`)// TO-DO solution this toast
     }
   }
 
@@ -337,11 +335,11 @@ const speechFactory = (grammarName, grammarOptions, input) => {
   }
 
   recognition.onnomatch = () => {
-    diagnostic.textContent = 'I didnt recognise that color.';
+    toastDiagnostic(diagnostic, 'I didnt recognise that word.')
   }
 
   recognition.onerror = event => {
-    diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
+    toastDiagnostic(diagnostic, `Error occurred in recognition: ${event.error}.`)
   }
   return recognition
 }
