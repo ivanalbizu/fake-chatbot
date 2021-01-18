@@ -321,6 +321,8 @@ const speechFactory = (grammarName, grammarOptions, input) => {
         field.value = answer[input.name] = number
         answer[input.name] = number
         localStorage.setItem('answer', JSON.stringify(answer))
+        const eventChange = new Event("change")
+        field.dispatchEvent(eventChange)
       }
       else toastDiagnostic(diagnostic, `I didnt recognise that word: ${transcript}.`)// TO-DO solution this toast
     }
